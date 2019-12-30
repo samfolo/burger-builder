@@ -2,6 +2,8 @@ import React from 'react';
 import Aux from '../../hoc/Aux'
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/OrderSummary/OrderSummary';
 
 class BurgerBuilder extends React.Component {
   constructor(props) {
@@ -54,6 +56,9 @@ class BurgerBuilder extends React.Component {
   render() {
     return (
       <Aux>
+        <Modal>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls 
           onSelect={this.handleSelection} 
