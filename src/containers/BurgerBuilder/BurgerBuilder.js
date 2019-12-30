@@ -52,7 +52,8 @@ class BurgerBuilder extends React.Component {
         <Burger ingredients={this.state.ingredients} />
         <BuildControls 
           onSelect={this.handleSelection} 
-          ingredients={this.state.ingredients} />
+          ingredients={this.state.ingredients} 
+          price={this.state.totalPrice} />
       </Aux>
     );
   }
