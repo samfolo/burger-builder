@@ -3,18 +3,26 @@ import Aux from '../../hoc/Aux';
 import Button from '../UI/Button/Button';
 
 class OrderSummary extends React.Component {
+  componentDidUpdate(nextProps, nextState) {
+    console.log('order summary will update')
+  }
+
   pluralize = (word, amount) => {
     return amount !== 1 ? word + 's' : word;
   }
 
   render() {
     const ingredients = this.props.ingredients.map((selected, i) => {
-      return (
-        <li 
-          key={`id_${selected.ingredient}_i`} 
-          style={{textTransform: 'capitalize'}}
-      >{selected.ingredient}: {selected.amount} {this.pluralize('Serving', selected.amount)}</li>
-      );
+      if (selected.amount > 0) {
+        return (
+          <li 
+            key={`id_${selected.ingredient}_i`} 
+            style={{textTransform: 'capitalize'}}
+          >{selected.ingredient}: {selected.amount} {this.pluralize('Serving', selected.amount)}</li>
+        );
+      } else {
+        return null;
+      }
     });
 
     return (
