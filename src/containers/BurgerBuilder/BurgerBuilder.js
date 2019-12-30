@@ -62,11 +62,18 @@ class BurgerBuilder extends React.Component {
     this.setState({ purchasing: false });
   }
 
+  handleContinueOrder = () => {
+    alert('how DARE you continue on this the day of my wedding')
+  }
+
   render() {
     return (
       <Aux>
         <Modal purchasing={this.state.purchasing} onAbort={this.handleAbortOrder} >
-          <OrderSummary ingredients={this.state.ingredients} />
+          <OrderSummary 
+            onAbort={this.handleAbortOrder}
+            onContinue={this.handleContinueOrder}
+            ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls 
