@@ -1,12 +1,8 @@
 import React from 'react';
-import Aux from '../../hoc/Aux';
+import Aux from '../../hoc/Aux/Aux';
 import Button from '../UI/Button/Button';
 
 class OrderSummary extends React.Component {
-  componentDidUpdate(nextProps, nextState) {
-    console.log('order summary will update')
-  }
-
   pluralize = (word, amount) => {
     return amount !== 1 ? word + 's' : word;
   }
