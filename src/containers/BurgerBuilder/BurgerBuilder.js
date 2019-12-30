@@ -73,7 +73,8 @@ class BurgerBuilder extends React.Component {
           <OrderSummary 
             onAbort={this.handleAbortOrder}
             onContinue={this.handleContinueOrder}
-            ingredients={this.state.ingredients} />
+            ingredients={this.state.ingredients} 
+            totalPrice={this.state.totalPrice} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls 
