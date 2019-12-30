@@ -10,6 +10,12 @@ const controls = [
 ]
 
 const BuildControls = props => {
+
+  const amountSelected = ingredient => {
+    const target = props.ingredients.find(selected => selected.ingredient === ingredient);
+    return target.amount;
+  }
+
   return (
     <div className={Classes.BuildControls}>
       {
@@ -19,7 +25,8 @@ const BuildControls = props => {
               key={`id_${control.type}_${i}`}
               label={control.label} 
               type={control.type} 
-              onSelect={props.onSelect} />
+              onSelect={props.onSelect} 
+              ingredientAmount={amountSelected(control.type)} />
           );
         })
       }

@@ -9,11 +9,12 @@ class BurgerBuilder extends React.Component {
 
     this.state = {
       ingredients: [
-        { ingredient: 'salad', amount: 0 },
-        { ingredient: 'bacon', amount: 0 },
-        { ingredient: 'cheese', amount: 0 },
-        { ingredient: 'meat', amount: 0 },
+        { ingredient: 'salad', amount: 0, price: 0.5 },
+        { ingredient: 'bacon', amount: 0, price: 0.4 },
+        { ingredient: 'cheese', amount: 0, price: 1.3 },
+        { ingredient: 'meat', amount: 0, price: 0.7 },
       ],
+      totalPrice: 4,
     }
   }
 
@@ -21,15 +22,16 @@ class BurgerBuilder extends React.Component {
     const targetIndex = this.state.ingredients.findIndex(selected => selected.ingredient === ingredient);
     const target = this.state.ingredients[targetIndex];
     const newIngredientState = {...target}
+    let updatedTotalPrice = this.state.totalPrice
 
     switch (change) {
       case ('Less'):
-        if (newIngredientState.amount > 0) {
-          newIngredientState.amount --;
-        }
+        newIngredientState.amount --;
+        updatedTotalPrice -= newIngredientState.price;
         break;
       case ('More'):
         newIngredientState.amount ++;
+        updatedTotalPrice += newIngredientState.price;
         break;
       default:
         return false;
@@ -37,14 +39,20 @@ class BurgerBuilder extends React.Component {
 
     const newIngredientsState = [...this.state.ingredients];
     newIngredientsState[targetIndex] = newIngredientState;
-    this.setState({ ingredients: newIngredientsState });
+    this.setState({ 
+      ingredients: newIngredientsState,
+      totalPrice: updatedTotalPrice
+    });
+    console.log(`$${updatedTotalPrice}`)
   }
 
   render() {
     return (
       <Aux>
         <Burger ingredients={this.state.ingredients} />
-        <BuildControls onSelect={this.handleSelection} />
+        <BuildControls 
+          onSelect={this.handleSelection} 
+          ingredients={this.state.ingredients} />
       </Aux>
     );
   }
