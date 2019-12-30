@@ -17,6 +17,7 @@ class BurgerBuilder extends React.Component {
         { ingredient: 'meat', amount: 0, price: 0.7 },
       ],
       totalPrice: 4,
+      purchasing: false,
     }
   }
 
@@ -53,10 +54,14 @@ class BurgerBuilder extends React.Component {
     return ingredientsCount <= 0;
   }
 
+  handleOrderClick = () => {
+    this.setState({ purchasing: true });
+  }
+
   render() {
     return (
       <Aux>
-        <Modal>
+        <Modal purchasing={this.state.purchasing} >
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
@@ -64,7 +69,8 @@ class BurgerBuilder extends React.Component {
           onSelect={this.handleSelection} 
           ingredients={this.state.ingredients} 
           price={this.state.totalPrice}
-          noIngredients={this.isBurgerEmpty()} />
+          noIngredients={this.isBurgerEmpty()}
+          onOrder={this.handleOrderClick} />
       </Aux>
     );
   }
