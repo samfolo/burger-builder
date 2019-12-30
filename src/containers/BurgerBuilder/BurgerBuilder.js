@@ -43,7 +43,12 @@ class BurgerBuilder extends React.Component {
       ingredients: newIngredientsState,
       totalPrice: updatedTotalPrice
     });
-    console.log(`$${updatedTotalPrice}`)
+  }
+
+  isBurgerEmpty = () => {
+    const allIngredients = [...this.state.ingredients].map(ing => ing.amount);
+    const ingredientsCount = allIngredients.reduce((a, b) => a + b);
+    return ingredientsCount <= 0;
   }
 
   render() {
@@ -53,7 +58,8 @@ class BurgerBuilder extends React.Component {
         <BuildControls 
           onSelect={this.handleSelection} 
           ingredients={this.state.ingredients} 
-          price={this.state.totalPrice} />
+          price={this.state.totalPrice}
+          noIngredients={this.isBurgerEmpty()} />
       </Aux>
     );
   }
