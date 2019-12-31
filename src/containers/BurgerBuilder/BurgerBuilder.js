@@ -6,6 +6,7 @@ import BuildControls from '../../components/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import errorHandler from '../../hoc/ErrorHandler/ErrorHandler';
 
 class BurgerBuilder extends React.Component {
   constructor(props) {
@@ -115,7 +116,7 @@ class BurgerBuilder extends React.Component {
 
     return (
       <Aux>
-        <Modal purchasing={this.state.purchasing} onAbort={this.handleAbortOrder} >
+        <Modal show={this.state.purchasing} onAbort={this.handleAbortOrder} >
           {orderSummary}
         </Modal>
         <Burger ingredients={this.state.ingredients} />
@@ -130,4 +131,4 @@ class BurgerBuilder extends React.Component {
   }
 }
 
-export default BurgerBuilder;
+export default errorHandler(BurgerBuilder, axios);

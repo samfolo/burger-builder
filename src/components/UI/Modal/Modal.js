@@ -5,19 +5,19 @@ import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.purchasing !== this.props.purchasing || 
+    return nextProps.show !== this.props.show || 
     nextProps.children !== this.props.children;
   }
 
   render() {
     return (
       <Aux>
-        <Backdrop show={this.props.purchasing} onClick={this.props.onAbort} />
+        <Backdrop show={this.props.show} onClick={this.props.onAbort} />
         <div 
           className={Classes.Modal} 
           style={{ 
-            transform: this.props.purchasing ? 'translateY(0)' : 'translateY(-100vh)',
-            opacity: this.props.purchasing ? '1' : '0'
+            transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
+            opacity: this.props.show ? '1' : '0'
           }}>
             {this.props.children}
           </div>
