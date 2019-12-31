@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
+import axios from '../../axios-orders';
 
 class BurgerBuilder extends React.Component {
   constructor(props) {
@@ -63,7 +64,26 @@ class BurgerBuilder extends React.Component {
   }
 
   handleContinueOrder = () => {
-    alert('how DARE you continue on this the day of my wedding')
+    // alert('how DARE you continue on this the day of my wedding');
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: 'Sam Folorunsho',
+        address: {
+          street: '1234 Coder Close',
+          city: 'React City',
+          zipCode: 100110,
+          country: 'United Kingdom',
+        },
+        email: 'sam@example.com',
+      },
+      deliveryMethod: 'fastest',
+    }
+
+    axios.post('/orders.json', order)
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
   }
 
   render() {
