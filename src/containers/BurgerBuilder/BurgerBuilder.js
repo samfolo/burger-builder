@@ -17,6 +17,7 @@ class BurgerBuilder extends React.Component {
       totalPrice: 4,
       purchasing: false,
       loading: false,
+      error: false,
     }
   }
 
@@ -34,6 +35,9 @@ class BurgerBuilder extends React.Component {
 
       this.setState({ ingredients: ingredients, });
       console.log('new ingredients: ', this.state.ingredients);
+    })
+    .catch(error => {
+      this.setState({ error: true, });
     });
   }
 
@@ -117,7 +121,7 @@ class BurgerBuilder extends React.Component {
 
   render() {
     let orderSummary = null;
-    let burger = <Spinner />
+    let burger = this.state.error ? <p style={{textAlign: 'center'}}>Cannot load ingredients</p> : <Spinner />
 
     if (this.state.ingredients) {
       burger = (
@@ -131,7 +135,7 @@ class BurgerBuilder extends React.Component {
             onOrder={this.handleOrderClick} />
         </Aux>
       );
-      
+
       orderSummary = <OrderSummary 
         onAbort={this.handleAbortOrder}
         onContinue={this.handleContinueOrder}

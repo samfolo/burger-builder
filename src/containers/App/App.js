@@ -3,14 +3,16 @@ import Classes from './App.module.css';
 import Layout from '../../hoc/Layout/Layout';
 import BurgerBuilder from '../BurgerBuilder/BurgerBuilder';
 
-function App() {
-  return (
-    <div className={Classes.App}>
-      <Layout>
-        <BurgerBuilder />
-      </Layout>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <div className={Classes.App}>
+        <Layout>
+          <BurgerBuilder />
+        </Layout>
+      </div>
+    );
+  }
 }
 
 export default App;

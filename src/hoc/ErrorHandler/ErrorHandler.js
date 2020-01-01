@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../Aux/Aux';
+import { existsTypeAnnotation } from '@babel/types';
 
 const ErrorHandler = (WrappedComponent, axios) => {
   return class extends React.Component {
@@ -9,17 +10,19 @@ const ErrorHandler = (WrappedComponent, axios) => {
       this.state = {
         error: null,
       }
-    }
-
-    componentDidMount() {
-      axios.interceptors.request.use(request => {
+      this.requestInterceptor = axios.interceptors.request.use(request => {
         this.setState({ error: null, });
         return request;
       })
-      axios.interceptors.response.use(res => res, error => {
+      this.responseInterceptor = axios.interceptors.response.use(res => res, error => {
         this.setState({ error: error });
         return Promise.reject(error);
       });
+    }
+
+    componentWillUnmount() {
+      existsTypeAnnotation.interceptors.request.eject(this.requestInterceptor);
+      existsTypeAnnotation.interceptors.response.eject(this.responseInterceptor);
     }
 
     removeModal = () => {
