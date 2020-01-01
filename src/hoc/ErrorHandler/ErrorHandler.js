@@ -1,5 +1,4 @@
 import React from 'react';
-import Classes from './ErrorHandler.module.css';
 import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../Aux/Aux';
 

@@ -13,16 +13,28 @@ class BurgerBuilder extends React.Component {
     super(props);
 
     this.state = {
-      ingredients: [
-        { ingredient: 'salad', amount: 0, price: 0.5 },
-        { ingredient: 'bacon', amount: 0, price: 0.4 },
-        { ingredient: 'cheese', amount: 0, price: 1.3 },
-        { ingredient: 'meat', amount: 0, price: 0.7 },
-      ],
+      ingredients: null,
       totalPrice: 4,
       purchasing: false,
       loading: false,
     }
+  }
+
+  componentDidMount() {
+    axios.get('/ingredients.json')
+    .then(response => {
+      const types = ['salad', 'bacon', 'cheese', 'meat']
+      const ingredients = types.map(type => {
+        return ({
+          ingredient: response.data[type].ingredient,
+          amount: response.data[type].amount,
+          price: response.data[type].price,
+        })
+      });
+
+      this.setState({ ingredients: ingredients, });
+      console.log('new ingredients: ', this.state.ingredients);
+    });
   }
 
   handleSelection = (ingredient, change) => {
@@ -104,11 +116,28 @@ class BurgerBuilder extends React.Component {
   }
 
   render() {
-    let orderSummary = <OrderSummary 
-      onAbort={this.handleAbortOrder}
-      onContinue={this.handleContinueOrder}
-      ingredients={this.state.ingredients} 
-      totalPrice={this.state.totalPrice} />
+    let orderSummary = null;
+    let burger = <Spinner />
+
+    if (this.state.ingredients) {
+      burger = (
+        <Aux>
+          <Burger ingredients={this.state.ingredients} />
+          <BuildControls 
+            onSelect={this.handleSelection} 
+            ingredients={this.state.ingredients} 
+            price={this.state.totalPrice}
+            noIngredients={this.isBurgerEmpty()}
+            onOrder={this.handleOrderClick} />
+        </Aux>
+      );
+      
+      orderSummary = <OrderSummary 
+        onAbort={this.handleAbortOrder}
+        onContinue={this.handleContinueOrder}
+        ingredients={this.state.ingredients} 
+        totalPrice={this.state.totalPrice} />
+    }
 
     if (this.state.loading) {
       orderSummary = <Spinner />
@@ -119,13 +148,7 @@ class BurgerBuilder extends React.Component {
         <Modal show={this.state.purchasing} onAbort={this.handleAbortOrder} >
           {orderSummary}
         </Modal>
-        <Burger ingredients={this.state.ingredients} />
-        <BuildControls 
-          onSelect={this.handleSelection} 
-          ingredients={this.state.ingredients} 
-          price={this.state.totalPrice}
-          noIngredients={this.isBurgerEmpty()}
-          onOrder={this.handleOrderClick} />
+          {burger}
       </Aux>
     );
   }
