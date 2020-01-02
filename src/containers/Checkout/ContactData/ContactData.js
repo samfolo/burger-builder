@@ -4,7 +4,7 @@ import axios from '../../../axios-orders';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import Orders from '../../Orders/Orders';
+import Input from '../../../components/UI/Input/Input';
 
 class ContactData extends React.Component {
   constructor(props) {
@@ -82,10 +82,10 @@ class ContactData extends React.Component {
       <Aux>
         <h4>Enter your Contact Data</h4>
         <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <input className={Classes.Input} type='text' name='name' placeholder='Enter your name' onChange={(e) => this.handleChange(e, 'name')} />
-          <input className={Classes.Input} type='email' name='email' placeholder='Enter your email' onChange={(e) => this.handleChange(e, 'email')} />
-          <input className={Classes.Input} type='text' name='street' placeholder='Enter your street' onChange={(e) => this.handleChange(e, 'street')} />
-          <input className={Classes.Input} type='text' name='postcode' placeholder='Enter your postcode' onChange={(e) => this.handleChange(e, 'zipCode')} />
+          <Input inputtype='input' type='text' name='name' placeholder='Enter your name' onChange={(e) => this.handleChange(e, 'name')} />
+          <Input inputtype='input' type='email' name='email' placeholder='Enter your email' onChange={(e) => this.handleChange(e, 'email')} />
+          <Input inputtype='input' type='text' name='street' placeholder='Enter your street' onChange={(e) => this.handleChange(e, 'street')} />
+          <Input inputtype='input' type='text' name='postcode' placeholder='Enter your postcode' onChange={(e) => this.handleChange(e, 'zipCode')} />
           <Button buttonType='Success' onClick={this.handleOrder}>ORDER NOW</Button>
         </form>
       </Aux>
@@ -98,7 +98,6 @@ class ContactData extends React.Component {
     return (
       <div className={Classes.ContactData}>
         {form}
-        <Orders />
       </div>
     );
   }

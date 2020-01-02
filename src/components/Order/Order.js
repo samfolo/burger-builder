@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './Order.module.css';
-import { render } from '@testing-library/react';
 
 class Order extends React.Component {
   pluralize = (word, amount) => {
