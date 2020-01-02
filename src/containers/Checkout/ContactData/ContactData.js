@@ -4,6 +4,7 @@ import axios from '../../../axios-orders';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Orders from '../../Orders/Orders';
 
 class ContactData extends React.Component {
   constructor(props) {
@@ -97,6 +98,7 @@ class ContactData extends React.Component {
     return (
       <div className={Classes.ContactData}>
         {form}
+        <Orders />
       </div>
     );
   }
