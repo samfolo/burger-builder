@@ -1,6 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+
 import axios from '../../axios-orders';
-import Aux from '../../hoc/Aux/Aux'
+import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -18,6 +20,7 @@ class BurgerBuilder extends React.Component {
       purchasing: false,
       loading: false,
       error: false,
+      purchaseComplete: false,
     }
   }
 
@@ -83,39 +86,44 @@ class BurgerBuilder extends React.Component {
   }
 
   handleContinueOrder = () => {
-    // alert('how DARE you continue on this the day of my wedding');
-    this.setState({ loading: true, });
+    // // alert('how DARE you continue on this the day of my wedding');
+    // this.setState({ loading: true, });
 
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Sam Folorunsho',
-        address: {
-          street: '1234 Coder Close',
-          city: 'React City',
-          zipCode: 100110,
-          country: 'United Kingdom',
-        },
-        email: 'sam@example.com',
-      },
-      deliveryMethod: 'fastest',
-    }
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     name: 'Sam Folorunsho',
+    //     address: {
+    //       street: '1234 Coder Close',
+    //       city: 'React City',
+    //       zipCode: 100110,
+    //       country: 'United Kingdom',
+    //     },
+    //     email: 'sam@example.com',
+    //   },
+    //   deliveryMethod: 'fastest',
+    // }
 
-    axios.post('/orders.json', order)
-    .then(response => {
-      console.log(response);
-      this.setState({
-        loading: false,
-        purchasing: false,
-      });
-    })
-    .catch(error => {
-      console.log(error)
-      this.setState({
-        loading: false,
-        purchasing: false,
-      });
+    // axios.post('/orders.json', order)
+    // .then(response => {
+    //   console.log(response);
+    //   this.setState({
+    //     loading: false,
+    //     purchasing: false,
+    //     purchaseComplete: true,
+    //   });
+    // })
+    // .catch(error => {
+    //   console.log(error)
+    //   this.setState({
+    //     loading: false,
+    //     purchasing: false,
+    //   });
+    // });
+
+    this.props.history.push({
+      pathname: '/checkout'
     });
   }
 
@@ -149,6 +157,7 @@ class BurgerBuilder extends React.Component {
 
     return (
       <Aux>
+        {this.state.purchaseComplete ? <Redirect to='/checkout' /> : null}
         <Modal show={this.state.purchasing} onAbort={this.handleAbortOrder} >
           {orderSummary}
         </Modal>
