@@ -20,7 +20,8 @@ class ContactData extends React.Component {
           value: '',
           validation: {
             required: true,
-          }
+          },
+          valid: false,
         },
         email: {
           elementType: 'input',
@@ -31,7 +32,8 @@ class ContactData extends React.Component {
           value: '',
           validation: {
             required: true,
-          }
+          },
+          valid: false,
         },
         street: {
           elementType: 'input',
@@ -42,7 +44,8 @@ class ContactData extends React.Component {
           value: '',
           validation: {
             required: true,
-          }
+          },
+          valid: false,
         },
         city: {
           elementType: 'input',
@@ -53,7 +56,8 @@ class ContactData extends React.Component {
           value: '',
           validation: {
             required: true,
-          }
+          },
+          valid: false,
         },
         zipCode: {
           elementType: 'input',
@@ -64,7 +68,10 @@ class ContactData extends React.Component {
           value: '',
           validation: {
             required: true,
-          }
+            minLength: 5,
+            maxLength: 5,
+          },
+          valid: false,
         },
         country: {
           elementType: 'select',
@@ -78,7 +85,8 @@ class ContactData extends React.Component {
           value: '',
           validation: {
             required: true,
-          }
+          },
+          valid: false,
         },
         deliveryMethod: {
           elementType: 'select',
@@ -92,7 +100,8 @@ class ContactData extends React.Component {
           value: '',
           validation: {
             required: true,
-          }
+          },
+          valid: false,
         },
       },
       loading: false,
@@ -150,7 +159,8 @@ class ContactData extends React.Component {
     const orderForm = {...this.state.orderForm};
     const orderFormField = {...orderForm[field]};
     orderFormField.value = e.target.value;
-    orderForm[field] = orderFormField; // deeply cloning
+    orderFormField.valid = this.checkValidity(orderFormField.value, orderFormField.validation);
+    orderForm[field] = orderFormField; // above is deep cloning
 
     this.setState({ orderForm: orderForm })
   }
@@ -165,10 +175,30 @@ class ContactData extends React.Component {
         elementConfig={this.state.orderForm[key].elementConfig} 
         value={this.state.orderForm[key].value}
         validation={this.state.orderForm[key].validation}
+        valid={this.state.orderForm[key].valid}
         onChange={(e) => this.handleChange(e, key)} />
     });
 
     return renderedInputs;
+  }
+
+  checkValidity(fieldValue, rules) {
+    let isValid = false;
+    let trueFieldValue = fieldValue.trim();
+
+    if (rules.required) {
+      isValid = trueFieldValue !== '';
+    }
+
+    if (rules.minLength) {
+      isValid = isValid && trueFieldValue.length >= 5
+    }
+
+    if (rules.maxLength) {
+      isValid = isValid && trueFieldValue.length <= 5
+    }
+
+    return isValid
   }
 
   render() {

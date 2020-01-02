@@ -17,6 +17,7 @@ class Input extends React.Component {
           placeholder={this.props.elementConfig.placeholder}
           value={this.props.value}
           required={this.props.validation.required}
+          valid={this.props.valid}
           onChange={this.props.onChange} />
         break;
       case ('textarea'):
@@ -26,6 +27,7 @@ class Input extends React.Component {
           placeholder={this.props.elementConfig.placeholder}
           value={this.props.value}
           required={this.props.validation.required}
+          valid={this.props.valid}
           onChange={this.props.onChange} />
         break;
       case ('select'): {
@@ -34,6 +36,7 @@ class Input extends React.Component {
             onChange={this.props.onChange} 
             defaultValue={this.props.elementConfig.placeholder}
             required={this.props.validation.required}
+            valid={this.props.valid}
           >
             <option disabled hidden>{this.props.elementConfig.placeholder}</option>
             {
