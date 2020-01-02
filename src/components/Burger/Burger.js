@@ -19,6 +19,7 @@ const Burger = props => {
     if (renderedIngredients.length === 0) {
       return <h3>Please begin your burgerrrr</h3>
     }
+    
     return renderedIngredients;
   }
 
