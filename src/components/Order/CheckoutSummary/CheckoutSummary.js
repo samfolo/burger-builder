@@ -11,8 +11,8 @@ const CheckoutSummary = props => {
         <Burger ingredients={props.ingredients} />
       </div>
       <div>
-        <Button buttonType='Danger' clicked>CANCEL</Button>
-        <Button buttonType='Success' clicked>CONTINUE</Button>
+        <Button buttonType='Danger' onClick={props.onCancel}>CANCEL</Button>
+        <Button buttonType='Success' onClick={props.onContinue}>CONTINUE</Button>
       </div>
     </div>
   );

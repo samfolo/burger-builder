@@ -5,19 +5,39 @@ class Checkout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ingredients: [
-        { ingredient: 'salad', amount: 1, price: 0.5 },
-        { ingredient: 'bacon', amount: 1, price: 0.4 },
-        { ingredient: 'cheese', amount: 1, price: 1.3 },
-        { ingredient: 'meat', amount: 1, price: 0.7 },
-      ]
+      ingredients: [],
     }
+  }
+
+  componentDidMount() {
+    const query = new URLSearchParams(this.props.location.search);    
+    const ingredients = {};
+    for (let param of query.entries()) {
+      ingredients[param[0]] = +param[1];
+    }
+    console.log(ingredients) // gives us { salad: 0, bacon: 4, cheese: 0, meat: 0 } through query string
+
+    this.setState({ ingredients: this.props.location.state.ingredients }); // through location.state.. easier.
+  }
+
+  handleCancel = () => {
+    this.props.history.goBack();
+  }
+
+  handleContinue = () => {
+    this.props.history.replace({
+      pathname: '/checkout/contact-data'
+    });
   }
   
   render() {
+    console.log(this.props.location.state)
     return (
       <div>
-        <CheckoutSummary ingredients={this.state.ingredients} />
+        <CheckoutSummary 
+          ingredients={this.state.ingredients}
+          onCancel={this.handleCancel}
+          onContinue={this.handleContinue} />
       </div>
     );
   }
