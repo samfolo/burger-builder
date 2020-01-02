@@ -16,6 +16,7 @@ class Input extends React.Component {
           type={this.props.elementConfig.type} 
           placeholder={this.props.elementConfig.placeholder}
           value={this.props.value}
+          required={this.props.validation.required}
           onChange={this.props.onChange} />
         break;
       case ('textarea'):
@@ -24,11 +25,16 @@ class Input extends React.Component {
           type={this.props.elementConfig.type} 
           placeholder={this.props.elementConfig.placeholder}
           value={this.props.value}
+          required={this.props.validation.required}
           onChange={this.props.onChange} />
         break;
       case ('select'): {
         inputEl = (
-          <select onChange={this.props.onChange} defaultValue={this.props.elementConfig.placeholder}>
+          <select 
+            onChange={this.props.onChange} 
+            defaultValue={this.props.elementConfig.placeholder}
+            required={this.props.validation.required}
+          >
             <option disabled hidden>{this.props.elementConfig.placeholder}</option>
             {
               this.props.elementConfig.options.map((option, i) => {

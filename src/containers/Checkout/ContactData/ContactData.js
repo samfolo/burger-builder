@@ -10,12 +10,6 @@ class ContactData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      address: {
-        street: '',
-        zipCode: '',
-      },
       orderForm: {
         name: {
           elementType: 'input',
@@ -24,6 +18,9 @@ class ContactData extends React.Component {
             placeholder: 'Enter your name',
           },
           value: '',
+          validation: {
+            required: true,
+          }
         },
         email: {
           elementType: 'input',
@@ -32,6 +29,9 @@ class ContactData extends React.Component {
             placeholder: 'Enter your email',
           },
           value: '',
+          validation: {
+            required: true,
+          }
         },
         street: {
           elementType: 'input',
@@ -40,6 +40,9 @@ class ContactData extends React.Component {
             placeholder: 'Enter your street name',
           },
           value: '',
+          validation: {
+            required: true,
+          }
         },
         city: {
           elementType: 'input',
@@ -48,6 +51,9 @@ class ContactData extends React.Component {
             placeholder: 'Enter your city',
           },
           value: '',
+          validation: {
+            required: true,
+          }
         },
         zipCode: {
           elementType: 'input',
@@ -56,6 +62,9 @@ class ContactData extends React.Component {
             placeholder: 'Enter your postcode',
           },
           value: '',
+          validation: {
+            required: true,
+          }
         },
         country: {
           elementType: 'select',
@@ -67,6 +76,9 @@ class ContactData extends React.Component {
             placeholder: 'Enter your country',
           },
           value: '',
+          validation: {
+            required: true,
+          }
         },
         deliveryMethod: {
           elementType: 'select',
@@ -78,6 +90,9 @@ class ContactData extends React.Component {
             placeholder: 'Enter your preferred delivery method',
           },
           value: '',
+          validation: {
+            required: true,
+          }
         },
       },
       loading: false,
@@ -87,11 +102,9 @@ class ContactData extends React.Component {
     }
   }
 
-  handleOrder = (e) => {
-    // ...
-    // alert('how DARE you continue on this the day of my wedding');
-    this.setState({ loading: true, });
+  handleOrder = (e) => {    
     e.preventDefault();
+    this.setState({ loading: true, });
 
     console.log(this.state.orderForm)
 
@@ -135,7 +148,10 @@ class ContactData extends React.Component {
 
   handleChange = (e, field) => {
     const orderForm = {...this.state.orderForm};
-    orderForm[field].value = e.target.value;
+    const orderFormField = {...orderForm[field]};
+    orderFormField.value = e.target.value;
+    orderForm[field] = orderFormField; // deeply cloning
+
     this.setState({ orderForm: orderForm })
   }
 
@@ -147,7 +163,8 @@ class ContactData extends React.Component {
         key={`${i}_${key}`}
         elementType={this.state.orderForm[key].elementType} 
         elementConfig={this.state.orderForm[key].elementConfig} 
-        value={this.state.orderForm[key].value} 
+        value={this.state.orderForm[key].value}
+        validation={this.state.orderForm[key].validation}
         onChange={(e) => this.handleChange(e, key)} />
     });
 
@@ -158,9 +175,9 @@ class ContactData extends React.Component {
     let form = (
       <Aux>
         <h4>Enter your Contact Data</h4>
-        <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>      
+        <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }} onSubmit={this.handleOrder}>      
           {this.renderInputs()}
-          <Button buttonType='Success' onClick={this.handleOrder}>ORDER NOW</Button>
+          <Button buttonType='Success'>ORDER NOW</Button>
         </form>
       </Aux>
     );
