@@ -16,11 +16,75 @@ class ContactData extends React.Component {
         street: '',
         zipCode: '',
       },
+      orderForm: {
+        name: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Enter your name',
+          },
+          value: '',
+        },
+        email: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'email',
+            placeholder: 'Enter your email',
+          },
+          value: '',
+        },
+        street: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Enter your street name',
+          },
+          value: '',
+        },
+        city: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Enter your city',
+          },
+          value: '',
+        },
+        zipCode: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'Enter your postcode',
+          },
+          value: '',
+        },
+        country: {
+          elementType: 'select',
+          elementConfig: {
+            options: [
+              {value: 'united-kingdom', displayValue: 'United Kingdom'},
+              {value: 'not-the-united-kingdom', displayValue: 'Not The United Kingdom'},
+            ],
+            placeholder: 'Enter your country',
+          },
+          value: '',
+        },
+        deliveryMethod: {
+          elementType: 'select',
+          elementConfig: {
+            options: [
+              {value: 'fastest', displayValue: 'Fastest'},
+              {value: 'cheapest', displayValue: 'Cheapest'},
+            ],
+            placeholder: 'Enter your preferred delivery method',
+          },
+          value: '',
+        },
+      },
       loading: false,
       purchasing: false,
       purchaseComplete: false,
       error: false,
-    };
+    }
   }
 
   handleOrder = (e) => {
@@ -29,23 +93,25 @@ class ContactData extends React.Component {
     this.setState({ loading: true, });
     e.preventDefault();
 
-    console.log(this.props.ingredients);
+    console.log(this.state.orderForm)
 
     const order = {
       ingredients: this.props.ingredients,
       price: +this.props.price.toFixed(2),
       customer: {
-        name: this.state.name,
+        name: this.state.orderForm.name.value,
         address: {
-          street: this.state.street,
-          city: 'React City',
-          zipCode: this.state.zipCode,
-          country: 'United Kingdom',
+          street: this.state.orderForm.street.value,
+          city: this.state.orderForm.city.value,
+          zipCode: this.state.orderForm.zipCode.value,
+          country: this.state.orderForm.country.value,
         },
-        email: this.state.email,
+        email: this.state.orderForm.email.value,
       },
-      deliveryMethod: 'fastest',
+      deliveryMethod: this.state.orderForm.deliveryMethod.value,
     }
+
+    console.log(order)
 
     axios.post('/orders.json', order)
     .then(response => {
@@ -68,24 +134,32 @@ class ContactData extends React.Component {
   }
 
   handleChange = (e, field) => {
-    if ( ['name', 'email'].includes(field)) {
-      this.setState({ [`${field}`]: e.target.value })
-    } else {
-      const address = {...this.state.address}
-      address[field] = e.target.value
-      this.setState({ address: address });
-    }
+    const orderForm = {...this.state.orderForm};
+    orderForm[field].value = e.target.value;
+    this.setState({ orderForm: orderForm })
+  }
+
+  renderInputs = () => {
+    const orderFormKeys = Object.keys(this.state.orderForm);
+
+    const renderedInputs = orderFormKeys.map((key, i) => {
+      return <Input 
+        key={`${i}_${key}`}
+        elementType={this.state.orderForm[key].elementType} 
+        elementConfig={this.state.orderForm[key].elementConfig} 
+        value={this.state.orderForm[key].value} 
+        onChange={(e) => this.handleChange(e, key)} />
+    });
+
+    return renderedInputs;
   }
 
   render() {
     let form = (
       <Aux>
         <h4>Enter your Contact Data</h4>
-        <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Input inputtype='input' type='text' name='name' placeholder='Enter your name' onChange={(e) => this.handleChange(e, 'name')} />
-          <Input inputtype='input' type='email' name='email' placeholder='Enter your email' onChange={(e) => this.handleChange(e, 'email')} />
-          <Input inputtype='input' type='text' name='street' placeholder='Enter your street' onChange={(e) => this.handleChange(e, 'street')} />
-          <Input inputtype='input' type='text' name='postcode' placeholder='Enter your postcode' onChange={(e) => this.handleChange(e, 'zipCode')} />
+        <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>      
+          {this.renderInputs()}
           <Button buttonType='Success' onClick={this.handleOrder}>ORDER NOW</Button>
         </form>
       </Aux>

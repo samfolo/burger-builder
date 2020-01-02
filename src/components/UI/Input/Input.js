@@ -9,13 +9,37 @@ class Input extends React.Component {
   render() {
     let inputEl;
 
-    switch (this.props.inputtype) {
+    switch (this.props.elementType) {
       default:
-        inputEl = <input className={Classes.InputEl} {...this.props} />
+        inputEl = <input 
+          className={Classes.InputEl} 
+          type={this.props.elementConfig.type} 
+          placeholder={this.props.elementConfig.placeholder}
+          value={this.props.value}
+          onChange={this.props.onChange} />
         break;
       case ('textarea'):
-        inputEl = <textarea className={Classes.InputEl} {...this.props} />
+        inputEl = <textarea 
+          className={Classes.InputEl} 
+          type={this.props.elementConfig.type} 
+          placeholder={this.props.elementConfig.placeholder}
+          value={this.props.value}
+          onChange={this.props.onChange} />
         break;
+      case ('select'): {
+        inputEl = (
+          <select onChange={this.props.onChange} defaultValue={this.props.elementConfig.placeholder}>
+            <option disabled hidden>{this.props.elementConfig.placeholder}</option>
+            {
+              this.props.elementConfig.options.map((option, i) => {
+                return (
+                  <option key={`${i}`} value={option.value}>{option.displayValue}</option>
+                );
+              })
+            }
+          </select>
+        );
+      }
     }
 
     return (
