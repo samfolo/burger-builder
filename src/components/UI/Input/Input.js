@@ -10,10 +10,12 @@ class Input extends React.Component {
   isValidClass = () => {
     let inputClass = [Classes.InputEl];
 
-    if (!this.props.valid && this.props.shouldValidate) {
-      inputClass.push(Classes.Invalid);
-    } else {
-      inputClass.push(Classes.Valid);
+    if (this.props.touched) {
+      if (!this.props.valid && this.props.shouldValidate) {
+        inputClass.push(Classes.Invalid);
+      } else {
+        inputClass.push(Classes.Valid);
+      }
     }
 
     return inputClass.join(' ')

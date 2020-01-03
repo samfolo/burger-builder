@@ -23,6 +23,7 @@ class ContactData extends React.Component {
             minLength: 3,
           },
           valid: false,
+          touched: false,
         },
         email: {
           elementType: 'input',
@@ -33,8 +34,11 @@ class ContactData extends React.Component {
           value: '',
           validation: {
             required: true,
+            // eslint-disable-next-line no-useless-escape
+            format: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
           },
           valid: false,
+          touched: false,
         },
         street: {
           elementType: 'input',
@@ -47,6 +51,7 @@ class ContactData extends React.Component {
             required: true,
           },
           valid: false,
+          touched: false,
         },
         city: {
           elementType: 'input',
@@ -59,6 +64,7 @@ class ContactData extends React.Component {
             required: true,
           },
           valid: false,
+          touched: false,
         },
         zipCode: {
           elementType: 'input',
@@ -73,6 +79,7 @@ class ContactData extends React.Component {
             maxLength: 5,
           },
           valid: false,
+          touched: false,
         },
         country: {
           elementType: 'select',
@@ -88,6 +95,7 @@ class ContactData extends React.Component {
             required: true,
           },
           valid: false,
+          touched: false,
         },
         deliveryMethod: {
           elementType: 'select',
@@ -103,6 +111,7 @@ class ContactData extends React.Component {
             required: true,
           },
           valid: false,
+          touched: false,
         },
       },
       loading: false,
@@ -161,6 +170,7 @@ class ContactData extends React.Component {
     const orderFormField = {...orderForm[field]};
     orderFormField.value = e.target.value;
     orderFormField.valid = this.checkValidity(orderFormField.value, orderFormField.validation);
+    orderFormField.touched = true;
     orderForm[field] = orderFormField; // above is deep cloning
 
     this.setState({ orderForm: orderForm })
@@ -178,6 +188,7 @@ class ContactData extends React.Component {
         validation={this.state.orderForm[key].validation}
         valid={this.state.orderForm[key].valid}
         shouldValidate={this.state.orderForm[key].validation ? true : undefined}
+        touched={this.state.orderForm[key].touched}
         onChange={(e) => this.handleChange(e, key)} />
     });
 
@@ -200,7 +211,24 @@ class ContactData extends React.Component {
       isValid = isValid && trueFieldValue.length <= rules.maxLength
     }
 
+    if (rules.format) {
+      isValid = isValid && rules.format.test(trueFieldValue);
+    }
+
     return isValid
+  }
+
+  isInvalidForm = () => {
+    const allFields = Object.keys(this.state.orderForm);
+
+    const validFields = allFields.map(field => {
+      return (
+        this.state.orderForm[field].valid
+      );
+    });
+    console.log(validFields);
+
+    return validFields.includes(false);
   }
 
   render() {
@@ -209,7 +237,7 @@ class ContactData extends React.Component {
         <h4>Enter your Contact Data</h4>
         <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }} onSubmit={this.handleOrder}>      
           {this.renderInputs()}
-          <Button buttonType='Success'>ORDER NOW</Button>
+          <Button buttonType='Success' disabled={this.isInvalidForm()}>ORDER NOW</Button>
         </form>
       </Aux>
     );
