@@ -17,8 +17,6 @@ class BurgerBuilder extends React.Component {
     super(props);
 
     this.state = {
-      ingredients: null,
-      totalPrice: 4,
       purchasing: false,
       loading: false,
       error: false,
@@ -27,6 +25,8 @@ class BurgerBuilder extends React.Component {
   }
 
   componentDidMount() {
+    //currently not using any of this:
+
     axios.get('/ingredients.json')
     .then(response => {
       const types = ['salad', 'bacon', 'cheese', 'meat']
@@ -42,33 +42,6 @@ class BurgerBuilder extends React.Component {
     })
     .catch(error => {
       this.setState({ error: true, });
-    });
-  }
-
-  handleSelection = (ingredient, change) => {
-    const targetIndex = this.props.ingredients.findIndex(selected => selected.ingredient === ingredient);
-    const target = this.props.ingredients[targetIndex];
-    const newIngredientState = {...target}
-    let updatedTotalPrice = this.props.totalPrice
-
-    switch (change) {
-      case ('Less'):
-        newIngredientState.amount --;
-        updatedTotalPrice -= newIngredientState.price;
-        break;
-      case ('More'):
-        newIngredientState.amount ++;
-        updatedTotalPrice += newIngredientState.price;
-        break;
-      default:
-        return false;
-    }
-
-    const newIngredientsState = [...this.props.ingredients];
-    newIngredientsState[targetIndex] = newIngredientState;
-    this.setState({ 
-      ingredients: newIngredientsState,
-      totalPrice: updatedTotalPrice
     });
   }
 

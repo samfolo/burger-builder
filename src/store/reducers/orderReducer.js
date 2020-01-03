@@ -13,10 +13,11 @@ const initialState = {
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.HANDLE_SELECTION:
+      const updatedState = {...state};
+      let updatedTotalPrice = updatedState.totalPrice;
       const targetIndex = state.ingredients.findIndex(selected => selected.ingredient === action.payload.ingredient);
       const target = state.ingredients[targetIndex];
       const newIngredientState = {...target}
-      let updatedTotalPrice = state.totalPrice;
   
       switch (action.payload.change) {
         case ('Less'):
