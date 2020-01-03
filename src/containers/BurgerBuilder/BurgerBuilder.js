@@ -10,7 +10,6 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import errorHandler from '../../hoc/ErrorHandler/ErrorHandler';
-import { act } from 'react-dom/test-utils';
 
 class BurgerBuilder extends React.Component {
   constructor(props) {
@@ -60,17 +59,17 @@ class BurgerBuilder extends React.Component {
   }
 
   handleContinueOrder = () => {
-    const queryParams = [];
-    for (let i in this.props.ingredients) {
-      console.log(this.props.ingredients[i])
-      queryParams.push(`${encodeURIComponent(this.props.ingredients[i].ingredient)}=${encodeURIComponent(this.props.ingredients[i].amount)}_${encodeURIComponent(this.props.ingredients[i].price)}`);
-    }
-    queryParams.push(`price=${this.props.totalPrice}`);
-    const queryString = queryParams.join('&');
+    // const queryParams = [];
+    // for (let i in this.props.ingredients) {
+    //   console.log(this.props.ingredients[i])
+    //   queryParams.push(`${encodeURIComponent(this.props.ingredients[i].ingredient)}=${encodeURIComponent(this.props.ingredients[i].amount)}_${encodeURIComponent(this.props.ingredients[i].price)}`);
+    // }
+    // queryParams.push(`price=${this.props.totalPrice}`);
+    // const queryString = queryParams.join('&');
 
     this.props.history.push({
       pathname: '/checkout',
-      search: `?${queryString}`,
+      // search: `?${queryString}`,
       state: ({
         ingredients: this.props.ingredients,
       })
