@@ -21,7 +21,6 @@ class ContactData extends React.Component {
           validation: {
             required: true,
             minLength: 3,
-            maxLength: 3,
           },
           valid: false,
         },
@@ -178,6 +177,7 @@ class ContactData extends React.Component {
         value={this.state.orderForm[key].value}
         validation={this.state.orderForm[key].validation}
         valid={this.state.orderForm[key].valid}
+        shouldValidate={this.state.orderForm[key].validation ? true : undefined}
         onChange={(e) => this.handleChange(e, key)} />
     });
 
@@ -185,19 +185,19 @@ class ContactData extends React.Component {
   }
 
   checkValidity(fieldValue, rules) {
-    let isValid = false;
+    let isValid = true ;
     let trueFieldValue = fieldValue.trim();
 
     if (rules.required) {
-      isValid = trueFieldValue !== '';
+      isValid = isValid && trueFieldValue !== '';
     }
 
     if (rules.minLength) {
-      isValid = isValid && trueFieldValue.length >= 5
+      isValid = isValid && trueFieldValue.length >= rules.minLength
     }
 
     if (rules.maxLength) {
-      isValid = isValid && trueFieldValue.length <= 5
+      isValid = isValid && trueFieldValue.length <= rules.maxLength
     }
 
     return isValid

@@ -6,28 +6,41 @@ class Input extends React.Component {
     super(props);
     this.state = {};
   }
+
+  isValidClass = () => {
+    let inputClass = [Classes.InputEl];
+
+    if (!this.props.valid && this.props.shouldValidate) {
+      inputClass.push(Classes.Invalid);
+    } else {
+      inputClass.push(Classes.Valid);
+    }
+
+    return inputClass.join(' ')
+  }
+
   render() {
     let inputEl;
+    
 
     switch (this.props.elementType) {
       default:
         inputEl = <input 
-          className={Classes.InputEl} 
+          autoComplete = 'new-password'
+          className={this.isValidClass()} 
           type={this.props.elementConfig.type} 
           placeholder={this.props.elementConfig.placeholder}
           value={this.props.value}
           required={this.props.validation.required}
-          valid={this.props.valid}
           onChange={this.props.onChange} />
         break;
       case ('textarea'):
         inputEl = <textarea 
-          className={Classes.InputEl} 
+          className={this.isValidClass()} 
           type={this.props.elementConfig.type} 
           placeholder={this.props.elementConfig.placeholder}
           value={this.props.value}
           required={this.props.validation.required}
-          valid={this.props.valid}
           onChange={this.props.onChange} />
         break;
       case ('select'): {
@@ -36,7 +49,6 @@ class Input extends React.Component {
             onChange={this.props.onChange} 
             defaultValue={this.props.elementConfig.placeholder}
             required={this.props.validation.required}
-            valid={this.props.valid}
           >
             <option disabled hidden>{this.props.elementConfig.placeholder}</option>
             {
