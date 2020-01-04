@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import * as actionTypes from '../../store/actions';
+import * as actionCreators from '../../store/actions';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
+import { bindActionCreators } from 'redux';
 
 class Checkout extends React.Component {
   handleCancel = () => {
@@ -17,6 +18,10 @@ class Checkout extends React.Component {
     });
   }
   
+  componentDidMount() {
+    this.props.beginNewOrder();
+  }
+
   render() {
     return (
       <div>
@@ -44,7 +49,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-
+    beginNewOrder: () => dispatch(actionCreators.beginNewOrder()),
   }
 }
 

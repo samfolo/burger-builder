@@ -4,6 +4,12 @@ export {
 } from './burgerBuilder';
 
 export {
+  handleOrder,
+  purchaseBurgerStart,
+  beginNewOrder,
+} from './order';
+
+export {
   HANDLE_SELECTION,
   SET_INGREDIENTS,
   CLEAR_INGREDIENTS,

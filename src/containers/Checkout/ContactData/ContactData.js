@@ -2,12 +2,14 @@ import React from 'react';
 import Classes from './ContactData.module.css';
 import axios from '../../../axios-orders';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../../store/actions';
+import * as actionTypes from '../../../store/actions/actionTypes';
+import * as actionCreators from '../../../store/actions';
 
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import withErrorHandler from '../../../hoc/ErrorHandler/ErrorHandler';
 
 class ContactData extends React.Component {
   constructor(props) {
@@ -117,18 +119,11 @@ class ContactData extends React.Component {
           touched: false,
         },
       },
-      loading: false,
-      purchasing: false,
-      purchaseComplete: false,
-      error: false,
     }
   }
 
-  handleOrder = (e) => {    
-    e.preventDefault();
-    this.setState({ loading: true, });
-
-    const order = {
+  getOrder = () => {
+    return {
       ingredients: this.props.ingredients,
       price: +this.props.totalPrice.toFixed(2),
       customer: {
@@ -143,24 +138,14 @@ class ContactData extends React.Component {
       },
       deliveryMethod: this.state.orderForm.deliveryMethod.value,
     }
+  }
 
-    axios.post('/orders.json', order)
-    .then(response => {
-      this.props.clearIngredients();
-      this.setState({
-        loading: false,
-        purchasing: false,
-        purchaseComplete: true,
-      });
-    })
-    .catch(error => {
-      this.setState({
-        loading: false,
-        purchasing: false,
-      });
-    });
-
-    this.props.history.push('/')
+  handleOrder = (e) => {    
+    e.preventDefault();
+    this.props.onPurchaseStart();
+    const order = this.getOrder();
+    this.props.onOrder(order);
+    this.props.history.push('/');
   }
 
   handleChange = (e, field) => {
@@ -254,13 +239,19 @@ const mapStateToProps = state => {
   return {
     ingredients: state.builder.ingredients,
     totalPrice: state.builder.totalPrice,
+    loading: state.order.loading,
+    purchasing: state.order.purchasing,
+    purchaseComplete: state.order.purchaseComplete,
+    error: state.order.error,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    clearIngredients: () => dispatch({type: actionTypes.CLEAR_INGREDIENTS})
+    clearIngredients: () => dispatch({type: actionTypes.CLEAR_INGREDIENTS}),
+    onOrder: (order) => dispatch(actionCreators.handleOrder(order)),
+    onPurchaseStart: () => dispatch(actionCreators.purchaseBurgerStart()),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactData);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

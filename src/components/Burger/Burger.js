@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions';
+
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
 import Classes from './Burger.module.css';
 
@@ -6,6 +9,8 @@ const Burger = props => {
   const renderIngredients = () => {
     const renderedIngredients = [];
 
+    console.log(props);
+    
     props.ingredients.forEach((selected, i) => {
       for (let i = 0; i < selected.amount; i++) {
         renderedIngredients.push(
@@ -32,4 +37,16 @@ const Burger = props => {
    );
 };
 
-export default Burger;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.builder.ingredients,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Burger);

@@ -23,7 +23,6 @@ class BurgerBuilder extends React.Component {
   }
 
   componentDidMount() {
-    //currently not using any of this:
     this.props.onInitIngredients();
   }
 
@@ -42,17 +41,8 @@ class BurgerBuilder extends React.Component {
   }
 
   handleContinueOrder = () => {
-    // const queryParams = [];
-    // for (let i in this.props.ingredients) {
-    //   console.log(this.props.ingredients[i])
-    //   queryParams.push(`${encodeURIComponent(this.props.ingredients[i].ingredient)}=${encodeURIComponent(this.props.ingredients[i].amount)}_${encodeURIComponent(this.props.ingredients[i].price)}`);
-    // }
-    // queryParams.push(`price=${this.props.totalPrice}`);
-    // const queryString = queryParams.join('&');
-
     this.props.history.push({
       pathname: '/checkout',
-      // search: `?${queryString}`,
       state: ({
         ingredients: this.props.ingredients,
       })
