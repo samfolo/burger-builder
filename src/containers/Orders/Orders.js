@@ -32,7 +32,6 @@ class Orders extends React.Component {
         );
       })
 
-      console.log(mappedOrders);
       this.setState({ 
         orders: mappedOrders,
         loadng: false,

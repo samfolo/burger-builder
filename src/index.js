@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import orderReducer from './store/reducers/orderReducer';
+import thunk from 'redux-thunk';
+import burgerBuilder from './store/reducers/burgerBuilder';
 import './index.css';
 import App from './containers/App/App';
 import * as serviceWorker from './serviceWorker';
@@ -11,7 +12,7 @@ import * as serviceWorker from './serviceWorker';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-  builder: orderReducer,
+  builder: burgerBuilder,
 });
 
 const logger = store => {
@@ -20,13 +21,13 @@ const logger = store => {
       console.log('[Middleware] Dispatching ', action);
       const result = next(action);
       console.log('[Middleware]', store.getState());
-      return result
+      return result;
     }
   }
 }
 
 const store = createStore(rootReducer, composeEnhancers(
-  applyMiddleware(logger)
+  applyMiddleware(logger, thunk)
 ));
 
 const app = (

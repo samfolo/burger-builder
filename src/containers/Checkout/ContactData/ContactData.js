@@ -128,8 +128,6 @@ class ContactData extends React.Component {
     e.preventDefault();
     this.setState({ loading: true, });
 
-    console.log(this.state.orderForm)
-
     const order = {
       ingredients: this.props.ingredients,
       price: +this.props.totalPrice.toFixed(2),
@@ -146,12 +144,9 @@ class ContactData extends React.Component {
       deliveryMethod: this.state.orderForm.deliveryMethod.value,
     }
 
-    console.log(order)
-
     axios.post('/orders.json', order)
     .then(response => {
       this.props.clearIngredients();
-      console.log(response);
       this.setState({
         loading: false,
         purchasing: false,
@@ -159,7 +154,6 @@ class ContactData extends React.Component {
       });
     })
     .catch(error => {
-      console.log(error)
       this.setState({
         loading: false,
         purchasing: false,
@@ -230,8 +224,6 @@ class ContactData extends React.Component {
         this.state.orderForm[field].valid
       );
     });
-    console.log(validFields);
-
     return validFields.includes(false);
   }
 

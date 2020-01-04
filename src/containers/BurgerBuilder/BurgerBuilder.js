@@ -1,9 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import * as actionTypes from '../../store/actions';
 import { connect } from 'react-redux'
 import axios from '../../axios-orders';
 import Aux from '../../hoc/Aux/Aux';
+import * as actionCreators from '../../store/actions/burgerBuilder';
+
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -125,14 +126,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getIngredients: (ingredients) => dispatch({type: actionTypes.GET_INGREDIENTS, ingredients: ingredients}),
-    handleSelection: (ingredient, change) => dispatch({
-      type: actionTypes.HANDLE_SELECTION, 
-      payload: {
-        ingredient: ingredient,
-        change: change,
-      }
-    })
+    handleSelection: (ingredient, change) => dispatch(actionCreators.handleSelection(ingredient, change)),
   }
 }
 
