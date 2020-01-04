@@ -2,7 +2,7 @@ import React from 'react';
 import Classes from './Orders.module.css';
 import axios from '../../axios-orders';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actionCreators from '../../store/actions';
 
 import Order from '../../components/Order/Order';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -18,35 +18,15 @@ class Orders extends React.Component {
   }
   
   componentDidMount() {
-    this.setState({ loadng: true });
-
-    axios.get('/orders.json')
-    .then(response => {
-      const orders = Object.keys(response.data);
-      const mappedOrders = orders.map((order, i) => {
-        return (
-          {
-            ...response.data[order],
-            id: order,
-          }
-        );
-      })
-
-      this.setState({ 
-        orders: mappedOrders,
-        loadng: false,
-      });
-    })
-    .catch(error => {
-      this.setState({ loadng: false });
-    })
+    this.props.onOrderStart();
+    this.props.getOrders();
   }
 
   render() {
     let orders = <Spinner />
 
-    if (this.state.orders) {
-      orders = this.state.orders.map((order, i) => {
+    if (this.props.orders) {
+      orders = this.props.orders.map((order, i) => {
         return (
           <Order
             key={`order_${order.id}_${i + 1}`}
@@ -67,13 +47,15 @@ class Orders extends React.Component {
 
 const mapStateToProps = state => {
   return {
-
+    loading: state.orders.loading,
+    orders: state.orders.orders,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-
+    onOrderStart: () => dispatch(actionCreators.loadingOrders()),
+    getOrders: () => dispatch(actionCreators.getOrders()),
   }
 }
 

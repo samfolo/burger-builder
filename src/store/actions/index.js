@@ -10,6 +10,13 @@ export {
 } from './order';
 
 export {
+  loadingOrders,
+  getOrders,
+  orderRetrievalSuccesful,
+  orderRetrievalFailed,
+} from './orders'
+
+export {
   HANDLE_SELECTION,
   SET_INGREDIENTS,
   CLEAR_INGREDIENTS,

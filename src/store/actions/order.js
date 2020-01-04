@@ -24,8 +24,6 @@ export const purchaseBurgerStart = () => {
   }
 }
 export const handleOrder = (order) => {
-  console.log(order)
-
   return dispatch => {
     axios.post('/orders.json', order)
     .then(response => {
