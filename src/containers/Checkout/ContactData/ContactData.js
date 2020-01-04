@@ -95,7 +95,7 @@ class ContactData extends React.Component {
             ],
             placeholder: 'Enter your country',
           },
-          value: '',
+          value: 'N/A',
           validation: {
             required: true,
           },
@@ -111,7 +111,7 @@ class ContactData extends React.Component {
             ],
             placeholder: 'Enter your preferred delivery method',
           },
-          value: '',
+          value: 'fastest',
           validation: {
             required: true,
           },

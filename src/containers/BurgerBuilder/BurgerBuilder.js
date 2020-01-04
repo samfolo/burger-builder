@@ -41,11 +41,14 @@ class BurgerBuilder extends React.Component {
   }
 
   handleContinueOrder = () => {
+    this.props.beginNewOrder();
     this.props.history.push({
       pathname: '/checkout',
-      state: ({
-        ingredients: this.props.ingredients,
-      })
+      // state: ({
+      //   ingredients: this.props.ingredients,
+      // }) 
+      
+      // ^^^^ unneeded due to redux;
     });
   }
 
@@ -97,6 +100,7 @@ const mapDispatchToProps = dispatch => {
   return {
     handleSelection: (ingredient, change) => dispatch(actionCreators.handleSelection(ingredient, change)),
     onInitIngredients: () => dispatch(actionCreators.initIngredients()),
+    beginNewOrder: () => dispatch(actionCreators.beginNewOrder()),
   }
 }
 

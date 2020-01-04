@@ -50,6 +50,7 @@ const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: ingredients,
+        totalPrice: initialState.totalPrice,
         error: false,
       }
 

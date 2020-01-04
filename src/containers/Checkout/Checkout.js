@@ -5,7 +5,6 @@ import * as actionCreators from '../../store/actions';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
-import { bindActionCreators } from 'redux';
 
 class Checkout extends React.Component {
   handleCancel = () => {
@@ -16,10 +15,6 @@ class Checkout extends React.Component {
     this.props.history.replace({
       pathname: '/checkout/contact-data'
     });
-  }
-  
-  componentDidMount() {
-    this.props.beginNewOrder();
   }
 
   render() {
