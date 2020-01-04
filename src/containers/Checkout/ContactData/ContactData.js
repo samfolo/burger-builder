@@ -1,6 +1,9 @@
 import React from 'react';
 import Classes from './ContactData.module.css';
 import axios from '../../../axios-orders';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actions';
+
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -129,7 +132,7 @@ class ContactData extends React.Component {
 
     const order = {
       ingredients: this.props.ingredients,
-      price: +this.props.price.toFixed(2),
+      price: +this.props.totalPrice.toFixed(2),
       customer: {
         name: this.state.orderForm.name.value,
         address: {
@@ -147,6 +150,7 @@ class ContactData extends React.Component {
 
     axios.post('/orders.json', order)
     .then(response => {
+      this.props.clearIngredients();
       console.log(response);
       this.setState({
         loading: false,
@@ -254,4 +258,17 @@ class ContactData extends React.Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.builder.ingredients,
+    totalPrice: state.builder.totalPrice,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    clearIngredients: () => dispatch({type: actionTypes.CLEAR_INGREDIENTS})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

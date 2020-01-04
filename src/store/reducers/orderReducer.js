@@ -11,9 +11,10 @@ const initialState = {
 }
 
 const orderReducer = (state = initialState, action) => {
+  let updatedState = {...state};
+
   switch (action.type) {
     case actionTypes.HANDLE_SELECTION:
-      const updatedState = {...state};
       let updatedTotalPrice = updatedState.totalPrice;
       const targetIndex = state.ingredients.findIndex(selected => selected.ingredient === action.payload.ingredient);
       const target = state.ingredients[targetIndex];
@@ -34,11 +35,16 @@ const orderReducer = (state = initialState, action) => {
       const newIngredientsState = [...state.ingredients];
       newIngredientsState[targetIndex] = newIngredientState;
 
-      console.log('redux ingredients: ', newIngredientState)
       return {
         ...state,
         ingredients: newIngredientsState,
         totalPrice: updatedTotalPrice,
+      }
+
+    case actionTypes.CLEAR_INGREDIENTS:
+      return {
+        ...updatedState,
+        ingredients: [...initialState.ingredients],
       }
       
     default:
