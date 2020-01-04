@@ -1,9 +1,11 @@
 export {
-
+  handleSelection,
+  initIngredients,
 } from './burgerBuilder';
 
 export {
   HANDLE_SELECTION,
-  GET_INGREDIENTS,
+  SET_INGREDIENTS,
   CLEAR_INGREDIENTS,
+  FETCH_INGREDIENTS_FAILED,
 } from './actionTypes';

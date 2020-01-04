@@ -1,13 +1,9 @@
 import * as actionTypes from '../actions';
 
 const initialState = {
-  ingredients: [
-    {ingredient: 'salad', amount: 0, price: 0.5,},
-    {ingredient: 'bacon', amount: 0, price: 0.4,},
-    {ingredient: 'cheese', amount: 0, price: 1.3,},
-    {ingredient: 'meat', amount: 0, price: 0.7,},
-  ],
+  ingredients: null,
   totalPrice: 4,
+  error: false,
 }
 
 const orderReducer = (state = initialState, action) => {
@@ -41,6 +37,27 @@ const orderReducer = (state = initialState, action) => {
         totalPrice: updatedTotalPrice,
       }
 
+    case actionTypes.SET_INGREDIENTS:
+      const types = ['salad', 'bacon', 'cheese', 'meat']
+      const ingredients = types.map(type => {
+        return ({
+          ingredient: action.order[type].ingredient,
+          amount: action.order[type].amount,
+          price: action.order[type].price,
+        })
+      });
+      console.log('[burgerBuilder.js], redux ingredients: ', ingredients);
+      return {
+        ...state,
+        ingredients: ingredients,
+        error: false,
+      }
+
+    case actionTypes.FETCH_INGREDIENTS_FAILED:
+      return {
+        ...state,
+        error: true,
+      }
     case actionTypes.CLEAR_INGREDIENTS:
       return {
         ...updatedState,

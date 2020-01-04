@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
 import axios from '../../axios-orders';
 import Aux from '../../hoc/Aux/Aux';
-import * as actionCreators from '../../store/actions/burgerBuilder';
+import * as actionCreators from '../../store/actions';
 
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
@@ -18,31 +18,13 @@ class BurgerBuilder extends React.Component {
 
     this.state = {
       purchasing: false,
-      loading: false,
-      error: false,
       purchaseComplete: false,
     }
   }
 
   componentDidMount() {
     //currently not using any of this:
-
-    axios.get('/ingredients.json')
-    .then(response => {
-      const types = ['salad', 'bacon', 'cheese', 'meat']
-      const ingredients = types.map(type => {
-        return ({
-          ingredient: response.data[type].ingredient,
-          amount: response.data[type].amount,
-          price: response.data[type].price,
-        })
-      });
-      this.setState({ ingredients: ingredients, });
-      console.log('new ingredients: ', this.props.ingredients);
-    })
-    .catch(error => {
-      this.setState({ error: true, });
-    });
+    this.props.onInitIngredients();
   }
 
   isBurgerEmpty = () => {
@@ -79,7 +61,7 @@ class BurgerBuilder extends React.Component {
 
   render() {
     let orderSummary = null;
-    let burger = this.state.error ? <p style={{textAlign: 'center'}}>Cannot load ingredients</p> : <Spinner />
+    let burger = this.props.error ? <p style={{textAlign: 'center'}}>Cannot load ingredients</p> : <Spinner />
 
     if (this.props.ingredients) {
       burger = (
@@ -101,10 +83,6 @@ class BurgerBuilder extends React.Component {
         totalPrice={this.props.totalPrice} />
     }
 
-    if (this.state.loading) {
-      orderSummary = <Spinner />
-    }
-
     return (
       <Aux>
         {this.state.purchaseComplete ? <Redirect to='/checkout' /> : null}
@@ -121,12 +99,14 @@ const mapStateToProps = state => {
   return {
     ingredients: state.builder.ingredients,
     totalPrice: state.builder.totalPrice,
+    error: state.error,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     handleSelection: (ingredient, change) => dispatch(actionCreators.handleSelection(ingredient, change)),
+    onInitIngredients: () => dispatch(actionCreators.initIngredients()),
   }
 }
 
