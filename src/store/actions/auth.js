@@ -87,20 +87,18 @@ export const authCheckState = () => {
     if (token && expirationDate > new Date()) {
       axios.post(`/v1/accounts:lookup?key=${process.env.REACT_APP_API_KEY}`, { idToken: token })
       .then(response => {
-        console.log('[actions/auth.js] user info: ', response.data);
         const userID = response.data.users[0].localId;
         const email = response.data.users[0].email;
 
         const payload = {
           idToken: token,
-          localID: userID,
+          localId: userID,
           email: email,
         }
         dispatch(authSuccess(payload));
         dispatch(checkAuthTimeOut((expirationDate.getTime() - new Date().getTime()) / 1000));
       })
       .catch(error => {
-        console.log('[actions/auth.js] Account Info Retrieval Error: ', error);
       });
     } else {
       dispatch(autoLogOut());

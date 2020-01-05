@@ -108,6 +108,7 @@ class ContactData extends React.Component {
   }
 
   getOrder = () => {
+    console.log(this.props.userID, '............');
     return {
       ingredients: this.props.ingredients,
       price: +this.props.totalPrice.toFixed(2),
@@ -121,6 +122,7 @@ class ContactData extends React.Component {
         },
         email: this.props.email,
       },
+      userID: this.props.userID,
       deliveryMethod: this.state.orderForm.deliveryMethod.value,
     }
   }
@@ -230,6 +232,7 @@ const mapStateToProps = state => {
     error: state.order.error,
     token: state.auth.token,
     email: state.auth.email,
+    userID: state.auth.userID,
   }
 }
 
