@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions';
+import updateState from '../utility/updateState';
 
 const initialState = {
   ingredients: null,
@@ -6,68 +7,57 @@ const initialState = {
   error: false,
 }
 
-const orderReducer = (state = initialState, action) => {
+
+
+const handleSelection = (state, action) => {
   let updatedState = {...state};
+  let updatedTotalPrice = updatedState.totalPrice;
+  const targetIndex = state.ingredients.findIndex(selected => selected.ingredient === action.payload.ingredient);
+  const target = state.ingredients[targetIndex];
+  const newIngredientState = {...target}
 
-  switch (action.type) {
-    case actionTypes.HANDLE_SELECTION:
-      let updatedTotalPrice = updatedState.totalPrice;
-      const targetIndex = state.ingredients.findIndex(selected => selected.ingredient === action.payload.ingredient);
-      const target = state.ingredients[targetIndex];
-      const newIngredientState = {...target}
-  
-      switch (action.payload.change) {
-        case ('Less'):
-          newIngredientState.amount --;
-          updatedTotalPrice -= newIngredientState.price;
-          break;
-        case ('More'):
-          newIngredientState.amount ++;
-          updatedTotalPrice += newIngredientState.price;
-          break;
-        default:
-      }
-  
-      const newIngredientsState = [...state.ingredients];
-      newIngredientsState[targetIndex] = newIngredientState;
-
-      return {
-        ...state,
-        ingredients: newIngredientsState,
-        totalPrice: updatedTotalPrice,
-      }
-
-    case actionTypes.SET_INGREDIENTS:
-      const types = ['salad', 'bacon', 'cheese', 'meat']
-      const ingredients = types.map(type => {
-        return ({
-          ingredient: action.order[type].ingredient,
-          amount: action.order[type].amount,
-          price: action.order[type].price,
-        })
-      });
-      console.log('[burgerBuilder.js], redux ingredients: ', ingredients);
-      return {
-        ...state,
-        ingredients: ingredients,
-        totalPrice: initialState.totalPrice,
-        error: false,
-      }
-
-    case actionTypes.FETCH_INGREDIENTS_FAILED:
-      return {
-        ...state,
-        error: true,
-      }
-    case actionTypes.CLEAR_INGREDIENTS:
-      return {
-        ...updatedState,
-        ingredients: [...initialState.ingredients],
-      }
-      
+  switch (action.payload.change) {
+    case ('Less'):
+      newIngredientState.amount --;
+      updatedTotalPrice -= newIngredientState.price;
+      break;
+    case ('More'):
+      newIngredientState.amount ++;
+      updatedTotalPrice += newIngredientState.price;
+      break;
     default:
   }
-  return state;
+
+  const newIngredientsState = [...state.ingredients];
+  newIngredientsState[targetIndex] = newIngredientState;
+  return { updatedTotalPrice: updatedTotalPrice, newIngredientsState: newIngredientsState }
+}
+
+const mapTypesToIngredients = (action) => {
+  const types = ['salad', 'bacon', 'cheese', 'meat']
+  return types.map(type => {
+    return ({
+      ingredient: action.order[type].ingredient,
+      amount: action.order[type].amount,
+      price: action.order[type].price,
+    })
+  });
+}
+
+const orderReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionTypes.HANDLE_SELECTION:
+      const res = handleSelection(state, action);
+      return updateState(state, { ingredients: res.newIngredientsState, totalPrice: res.updatedTotalPrice, });
+    case actionTypes.SET_INGREDIENTS:
+      const ingredients = mapTypesToIngredients(action);
+      return updateState(state, { ingredients: ingredients, totalPrice: initialState.totalPrice, error: false, });
+    case actionTypes.FETCH_INGREDIENTS_FAILED:
+      return updateState(state, { error: true, });
+    case actionTypes.CLEAR_INGREDIENTS:
+      return updateState(state, { ingredients: [...initialState.ingredients], });
+    default : return state;
+  }
 }
 
 export default orderReducer;

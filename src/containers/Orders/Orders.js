@@ -9,14 +9,6 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/ErrorHandler/ErrorHandler';
 
 class Orders extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-      orders: [],
-    }
-  }
-  
   componentDidMount() {
     this.props.onOrderStart();
     this.props.getOrders();
