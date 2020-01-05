@@ -15,3 +15,4 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILED = 'AUTH_FAILED';
 export const AUTO_LOG_OUT = 'AUTO_LOG_OUT';
 export const SET_AUTH_REDIRECT_PATH = 'SET_AUTH_REDIRECT_PATH';
+export const AUTH_CHECK_STATE = 'AUTH_CHECK_STATE';

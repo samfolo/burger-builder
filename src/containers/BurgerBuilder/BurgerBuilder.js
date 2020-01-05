@@ -24,6 +24,7 @@ class BurgerBuilder extends React.Component {
 
   componentDidMount() {
     this.props.onInitIngredients();
+    this.props.onInitAuthCheckState();
   }
 
   isBurgerEmpty = () => {
@@ -109,7 +110,8 @@ const mapDispatchToProps = dispatch => {
     handleSelection: (ingredient, change) => dispatch(actionCreators.handleSelection(ingredient, change)),
     onInitIngredients: () => dispatch(actionCreators.initIngredients()),
     beginNewOrder: () => dispatch(actionCreators.beginNewOrder()),
-    onSetAuthRedirectPath: (path) => dispatch(actionCreators.setAuthRedirectPath(path)) 
+    onSetAuthRedirectPath: (path) => dispatch(actionCreators.setAuthRedirectPath(path)),
+    onInitAuthCheckState: () => dispatch(actionCreators.authCheckState()),
   }
 }
 

@@ -20,6 +20,7 @@ export {
   auth,
   autoLogOut,
   setAuthRedirectPath,
+  authCheckState,
 } from './auth';
 
 export {
