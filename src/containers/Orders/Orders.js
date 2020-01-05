@@ -11,7 +11,7 @@ import withErrorHandler from '../../hoc/ErrorHandler/ErrorHandler';
 class Orders extends React.Component {
   componentDidMount() {
     this.props.onOrderStart();
-    this.props.getOrders();
+    this.props.getOrders(this.props.token);
   }
 
   render() {
@@ -41,13 +41,14 @@ const mapStateToProps = state => {
   return {
     loading: state.orders.loading,
     orders: state.orders.orders,
+    token: state.auth.token,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onOrderStart: () => dispatch(actionCreators.loadingOrders()),
-    getOrders: () => dispatch(actionCreators.getOrders()),
+    getOrders: (token) => dispatch(actionCreators.getOrders(token)),
   }
 }
 

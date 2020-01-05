@@ -22,9 +22,9 @@ export const orderRetrievalFailed = () => {
   }
 }
 
-export const getOrders = () => {
+export const getOrders = token => {
   return dispatch => {
-    axios.get('/orders.json')
+    axios.get('/orders.json?auth=' + token)
     .then(response => {
       dispatch(orderRetrievalSuccesful(response.data));
     })

@@ -144,7 +144,7 @@ class ContactData extends React.Component {
     e.preventDefault();
     this.props.onPurchaseStart();
     const order = this.getOrder();
-    this.props.onOrder(order);
+    this.props.onOrder(order, this.props.token);
     this.props.history.push('/');
   }
 
@@ -243,13 +243,14 @@ const mapStateToProps = state => {
     purchasing: state.order.purchasing,
     purchaseComplete: state.order.purchaseComplete,
     error: state.order.error,
+    token: state.auth.token,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     clearIngredients: () => dispatch({type: actionTypes.CLEAR_INGREDIENTS}),
-    onOrder: (order) => dispatch(actionCreators.handleOrder(order)),
+    onOrder: (order, token) => dispatch(actionCreators.handleOrder(order, token)),
     onPurchaseStart: () => dispatch(actionCreators.purchaseBurgerStart()),
   }
 }
