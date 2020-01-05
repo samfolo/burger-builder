@@ -4,6 +4,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends React.Component {
   state ={
@@ -106,16 +107,30 @@ class Auth extends React.Component {
   }
 
   render() {
-    const form = this.renderInputs();
-    
-    return (
-      <div className={Classes.Auth}>
+    let errorMessage = null;
+    let form = (
         <form 
           style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}
           onSubmit={this.handleSubmit}>
-          {form}
+          {this.renderInputs()}
           <Button buttonType='Success' disabled={this.isInvalidForm()}>SUBMIT</Button>
         </form>
+    );
+
+    if (this.props.loading) {
+      form = <Spinner />;
+    }
+
+    if (this.props.error) {
+      errorMessage = (
+      <p>Error Code {this.props.error.code}: {this.props.error.message}</p>
+      )
+    }
+
+    return (
+      <div className={Classes.Auth}>
+        {errorMessage}
+        {form}
         <Button 
           buttonType='Danger'
           onClick={this.handleFormSwitch}>
