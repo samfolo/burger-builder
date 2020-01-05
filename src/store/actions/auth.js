@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from '../../axios-orders';
+import axios from '../../axios-auth';
 
 export const authStart = () => {
   return {
@@ -21,14 +21,22 @@ export const authFailed = error => {
   }
 }
 
-export const auth = (email, password) => {
+export const auth = (email, password, isSignUp) => {
+  const url = isSignUp ? '/v1/accounts:signUp?key=' : '/v1/accounts:signInWithPassword?key='
   return dispatch => {
     dispatch(authStart());
-    axios.get()
+    const payload = {
+      email: email,
+      password: password,
+      returnSecureToken: true,
+    }
+    axios.post(`${url}${process.env.REACT_APP_API_KEY}`, payload)
     .then(response => {
-      dispatch(authSuccess());
+      console.log(response)
+      dispatch(authSuccess(response.data));
     })
     .catch(error => {
+      console.log(error);
       dispatch(authFailed(error));
     })
   }
