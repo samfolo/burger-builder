@@ -23,7 +23,7 @@ export const authFailed = error => {
   }
 }
 
-const autoLogOut = () => {
+export const autoLogOut = () => {
   return {
     type: actionTypes.AUTO_LOG_OUT,
   }

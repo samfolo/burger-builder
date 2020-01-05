@@ -17,7 +17,8 @@ export {
 } from './orders';
 
 export {
-  auth
+  auth,
+  autoLogOut,
 } from './auth';
 
 export {
