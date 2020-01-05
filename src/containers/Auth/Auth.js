@@ -2,6 +2,8 @@ import React from 'react';
 import Classes from './Auth.module.css';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions';
 
 class Auth extends React.Component {
   state ={
@@ -88,12 +90,21 @@ class Auth extends React.Component {
     return validFields.includes(false);
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const email = this.state.authForm.email.value;
+    const password = this.state.authForm.password.value;
+    this.props.onAuth(email, password)
+  }
+
   render() {
     const form = this.renderInputs();
-
+    
     return (
       <div className={Classes.Auth}>
-        <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <form 
+          style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+          onSubmit={this.handleSubmit}>
           {form}
           <Button buttonType='Success' disabled={this.isInvalidForm()}>SUBMIT</Button>
         </form>
@@ -102,4 +113,16 @@ class Auth extends React.Component {
   }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password) => dispatch(actionCreators.auth(email,password))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

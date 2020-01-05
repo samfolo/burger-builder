@@ -14,7 +14,11 @@ export {
   getOrders,
   orderRetrievalSuccesful,
   orderRetrievalFailed,
-} from './orders'
+} from './orders';
+
+export {
+  auth
+} from './auth';
 
 export {
   HANDLE_SELECTION,
