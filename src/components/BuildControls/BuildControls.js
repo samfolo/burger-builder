@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import Classes from './BuildControls.module.css';
 import BuildControl from './BuildControl/BuildControl';

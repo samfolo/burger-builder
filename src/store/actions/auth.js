@@ -81,7 +81,7 @@ export const authCheckState = () => {
     let expirationDate;
 
     if (storedExpirationDate) {
-      expirationDate = new Date(localStorage.getItem('expirationDate'));
+      expirationDate = new Date(storedExpirationDate);
     }
     
     if (token && expirationDate > new Date()) {
@@ -97,9 +97,10 @@ export const authCheckState = () => {
           email: email,
         }
         dispatch(authSuccess(payload));
+        dispatch(checkAuthTimeOut((expirationDate.getTime() - new Date().getTime()) / 1000));
       })
       .catch(error => {
-
+        console.log('[actions/auth.js] Account Info Retrieval Error: ', error);
       });
     } else {
       dispatch(autoLogOut());
