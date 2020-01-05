@@ -5,6 +5,7 @@ const initialState = {
   ingredients: null,
   totalPrice: 4,
   error: false,
+  building: false,
 }
 
 
@@ -30,7 +31,7 @@ const handleSelection = (state, action) => {
 
   const newIngredientsState = [...state.ingredients];
   newIngredientsState[targetIndex] = newIngredientState;
-  return { updatedTotalPrice: updatedTotalPrice, newIngredientsState: newIngredientsState }
+  return { updatedTotalPrice: updatedTotalPrice, newIngredientsState: newIngredientsState, }
 }
 
 const mapTypesToIngredients = (action) => {
@@ -48,10 +49,10 @@ const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.HANDLE_SELECTION:
       const res = handleSelection(state, action);
-      return updateState(state, { ingredients: res.newIngredientsState, totalPrice: res.updatedTotalPrice, });
+      return updateState(state, { ingredients: res.newIngredientsState, totalPrice: res.updatedTotalPrice, building: true, });
     case actionTypes.SET_INGREDIENTS:
       const ingredients = mapTypesToIngredients(action);
-      return updateState(state, { ingredients: ingredients, totalPrice: initialState.totalPrice, error: false, });
+      return updateState(state, { ingredients: ingredients, totalPrice: initialState.totalPrice, error: false, building: false, });
     case actionTypes.FETCH_INGREDIENTS_FAILED:
       return updateState(state, { error: true, });
     case actionTypes.CLEAR_INGREDIENTS:

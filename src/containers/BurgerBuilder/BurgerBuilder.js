@@ -33,7 +33,11 @@ class BurgerBuilder extends React.Component {
   }
 
   handleOrderClick = () => {
-    this.setState({ purchasing: true });
+    if (this.props.isLoggedIn) {
+      this.setState({ purchasing: true });
+    } else {
+      this.props.onSetAuthRedirectPath('/checkout');
+    }
   }
 
   handleAbortOrder = () => {
@@ -65,6 +69,8 @@ class BurgerBuilder extends React.Component {
             ingredients={this.props.ingredients} 
             price={this.props.totalPrice}
             noIngredients={this.isBurgerEmpty()}
+            loggedIn={this.props.isLoggedIn}
+            onSetAuthRedirectPath={this.props.onSetAuthRedirectPath}
             onOrder={this.handleOrderClick} />
         </Aux>
       );
@@ -93,6 +99,8 @@ const mapStateToProps = state => {
     ingredients: state.builder.ingredients,
     totalPrice: state.builder.totalPrice,
     error: state.error,
+    isLoggedIn: state.auth.loggedIn,
+    authRedirectPath: state.auth.authRedirectPath,
   }
 }
 
@@ -101,6 +109,7 @@ const mapDispatchToProps = dispatch => {
     handleSelection: (ingredient, change) => dispatch(actionCreators.handleSelection(ingredient, change)),
     onInitIngredients: () => dispatch(actionCreators.initIngredients()),
     beginNewOrder: () => dispatch(actionCreators.beginNewOrder()),
+    onSetAuthRedirectPath: (path) => dispatch(actionCreators.setAuthRedirectPath(path)) 
   }
 }
 

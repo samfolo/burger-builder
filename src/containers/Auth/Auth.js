@@ -130,7 +130,7 @@ class Auth extends React.Component {
 
     return (
       <div className={Classes.Auth}>
-        { this.props.loggedIn ? <Redirect to='/' /> : null }
+        { this.props.loggedIn ? <Redirect to={this.props.authRedirectPath} /> : null }
         {errorMessage}
         {form}
         <Button 
@@ -150,6 +150,7 @@ const mapStateToProps = state => {
     loading: state.auth.loading,
     error: state.auth.error,
     loggedIn: state.auth.loggedIn,
+    authRedirectPath: state.auth.authRedirectPath,
   }
 }
 

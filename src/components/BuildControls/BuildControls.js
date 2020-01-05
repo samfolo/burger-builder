@@ -1,4 +1,6 @@
 import React from 'react';
+import { Redirect, withRouter } from 'react-router-dom';
+
 import Classes from './BuildControls.module.css';
 import BuildControl from './BuildControl/BuildControl';
 
@@ -16,6 +18,28 @@ const BuildControls = props => {
     return target.amount;
   }
 
+  const toSignIn = () => {
+    props.onSetAuthRedirectPath('/checkout');
+    props.history.push('/auth');
+  }
+
+  let button = (
+    <button 
+      className={Classes.OrderButton}
+      onClick={toSignIn}>SIGN IN TO ORDER</button>
+  );
+
+  if (props.loggedIn) {
+    button = (
+      <button 
+        className={Classes.OrderButton} 
+        disabled={props.noIngredients}
+        onClick={props.onOrder}>ORDER NOW</button>
+    )
+  }
+
+  console.log(props)
+
   return (
     <div className={Classes.BuildControls}>
 <p>Current Price: <strong>£{props.price.toFixed(2)}</strong></p>
@@ -31,12 +55,9 @@ const BuildControls = props => {
           );
         })
       }
-      <button 
-        className={Classes.OrderButton} 
-        disabled={props.noIngredients}
-        onClick={props.onOrder}>ORDER NOW</button>
+      {button}
     </div>
   );
 }
 
-export default BuildControls;
+export default withRouter(BuildControls);
