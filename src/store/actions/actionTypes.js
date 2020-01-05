@@ -13,3 +13,4 @@ export const ORDER_RETRIEVAL_FAILED = 'ORDER_RETRIEVAL_FAILED';
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILED = 'AUTH_FAILED';
+export const AUTO_LOG_OUT = 'AUTO_LOG_OUT';

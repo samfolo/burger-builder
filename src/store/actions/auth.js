@@ -22,6 +22,20 @@ export const authFailed = error => {
   }
 }
 
+const autoLogOut = () => {
+  return {
+    type: actionTypes.AUTO_LOG_OUT,
+  }
+}
+
+const checkAuthTimeOut = expiresIn => {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(autoLogOut());
+    }, expiresIn * 1000)
+  }
+}
+
 export const auth = (email, password, isSignUp) => {
   const url = isSignUp ? '/v1/accounts:signUp?key=' : '/v1/accounts:signInWithPassword?key='
   return dispatch => {
@@ -35,6 +49,7 @@ export const auth = (email, password, isSignUp) => {
     .then(response => {
       console.log(response)
       dispatch(authSuccess(response.data));
+      dispatch(checkAuthTimeOut(response.data.expiresIn))
     })
     .catch(error => {
       console.log(error);
