@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import Classes from './Auth.module.css';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -129,6 +130,7 @@ class Auth extends React.Component {
 
     return (
       <div className={Classes.Auth}>
+        { this.props.loggedIn ? <Redirect to='/' /> : null }
         {errorMessage}
         {form}
         <Button 
@@ -147,12 +149,13 @@ const mapStateToProps = state => {
     userID: state.auth.userID,
     loading: state.auth.loading,
     error: state.auth.error,
+    loggedIn: state.auth.loggedIn,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password, isSignUp) => dispatch(actionCreators.auth(email,password, isSignUp)),
+    onAuth: (email, password, isSignUp) => dispatch(actionCreators.auth(email, password, isSignUp)),
   }
 }
 

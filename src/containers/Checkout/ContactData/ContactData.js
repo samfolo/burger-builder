@@ -30,21 +30,6 @@ class ContactData extends React.Component {
           valid: false,
           touched: false,
         },
-        email: {
-          elementType: 'input',
-          elementConfig: {
-            type: 'email',
-            placeholder: 'Enter your email',
-          },
-          value: '',
-          validation: {
-            required: true,
-            // eslint-disable-next-line no-useless-escape
-            format: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-          },
-          valid: false,
-          touched: false,
-        },
         street: {
           elementType: 'input',
           elementConfig: {
@@ -134,7 +119,7 @@ class ContactData extends React.Component {
           zipCode: this.state.orderForm.zipCode.value,
           country: this.state.orderForm.country.value,
         },
-        email: this.state.orderForm.email.value,
+        email: this.props.email,
       },
       deliveryMethod: this.state.orderForm.deliveryMethod.value,
     }
@@ -244,6 +229,7 @@ const mapStateToProps = state => {
     purchaseComplete: state.order.purchaseComplete,
     error: state.order.error,
     token: state.auth.token,
+    email: state.auth.email,
   }
 }
 

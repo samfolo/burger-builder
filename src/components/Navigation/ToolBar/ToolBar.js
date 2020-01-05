@@ -10,7 +10,7 @@ const ToolBar = props => {
       <MenuButton onClick={props.onClick} />
       <div className={Classes.Logo}><Logo /></div>
       <nav className={Classes.DesktopOnly}>
-        <NavigationItems />
+        <NavigationItems isLoggedIn={props.isLoggedIn} />
       </nav>
     </header>
   );

@@ -12,6 +12,7 @@ export const authSuccess = authData => {
     type: actionTypes.AUTH_SUCCESS,
     token: authData.idToken,
     userID: authData.localId,
+    email: authData.email,
   }
 }
 

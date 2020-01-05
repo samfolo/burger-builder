@@ -6,6 +6,8 @@ const initialState = {
   userID: null,
   error: null,
   loading: false,
+  loggedIn: false,
+  email: null,
 }
 
 const authStart = (state, action) => {
@@ -18,6 +20,8 @@ const authSuccess = (state, action) => {
     userID: action.userID,
     error: null,
     loading: false,
+    loggedIn: true,
+    email: action.email,
   });
 }
 
@@ -26,7 +30,7 @@ const authFailed = (state, action) => {
 }
 
 const autoLogOut = (state, action) => {
-  return updateObject(state, { token: null, userID: null, })
+  return updateObject(state, { token: null, userID: null, loggedIn: false, email: null,})
 }
 
 const reducer = (state = initialState, action) => {
