@@ -128,7 +128,10 @@ class Auth extends React.Component {
 
 const mapStateToProps = state => {
   return {
-
+    token: state.auth.token,
+    userID: state.auth.userID,
+    loading: state.auth.loading,
+    error: state.auth.error,
   }
 }
 
