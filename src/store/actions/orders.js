@@ -25,7 +25,6 @@ export const orderRetrievalFailed = () => {
 export const getOrders = (token, userID) => {
   return dispatch => {
     const queryParams = `?auth=${token}&orderBy="userID"&equalTo="${userID}"`;
-    console.log('[actions/orders.js] Query Params: ', queryParams)
     axios.get('/orders.json' + queryParams)
     .then(response => {
       dispatch(orderRetrievalSuccesful(response.data));

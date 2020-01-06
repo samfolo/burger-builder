@@ -8,8 +8,6 @@ const Burger = props => {
   const renderIngredients = () => {
     const renderedIngredients = [];
 
-    console.log(props);
-
     props.ingredients.forEach((selected, i) => {
       for (let i = 0; i < selected.amount; i++) {
         renderedIngredients.push(

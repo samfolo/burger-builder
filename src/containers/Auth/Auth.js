@@ -6,6 +6,7 @@ import Button from '../../components/UI/Button/Button';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import checkValidity from '../../shared/utility/validation';
 
 class Auth extends React.Component {
   state ={
@@ -49,18 +50,6 @@ class Auth extends React.Component {
     }
   }
 
-  checkValidity = (fieldValue, rules) => {
-    let isValid = true ;
-    let trueFieldValue = fieldValue.trim();
-
-    if (rules.required) { isValid = isValid && trueFieldValue !== ''; }
-    if (rules.minLength) { isValid = isValid && trueFieldValue.length >= rules.minLength }
-    if (rules.maxLength) { isValid = isValid && trueFieldValue.length <= rules.maxLength }
-    if (rules.format) { isValid = isValid && rules.format.test(trueFieldValue); }
-
-    return isValid
-  }
-
   renderInputs = () => {
     const authFormKeys = Object.keys(this.state.authForm);
 
@@ -82,7 +71,7 @@ class Auth extends React.Component {
     const authForm = {...this.state.authForm};
     const authFormField = {...authForm[field]};
     authFormField.value = e.target.value;
-    authFormField.valid = this.checkValidity(authFormField.value, authFormField.validation);
+    authFormField.valid = checkValidity(authFormField.value, authFormField.validation);
     authFormField.touched = true;
     authForm[field] = authFormField; // above is deep cloning
 

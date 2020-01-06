@@ -13,7 +13,9 @@ import orders from './store/reducers/orders';
 import order from './store/reducers/order';
 import auth from './store/reducers/auth';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = process.env.NODE_ENV === 'development' ? 
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose :
+  null;
 
 const rootReducer = combineReducers({
   builder: burgerBuilder,
@@ -25,9 +27,9 @@ const rootReducer = combineReducers({
 const logger = store => {
   return next => {
     return action => {
-      console.log('[Middleware] Dispatching ', action);
+      // console.log('[Middleware] Dispatching ', action);
       const result = next(action);
-      console.log('[Middleware]', store.getState());
+      // console.log('[Middleware]', store.getState());
       return result;
     }
   }

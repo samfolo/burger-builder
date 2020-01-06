@@ -50,7 +50,7 @@ export const auth = (email, password, isSignUp) => {
     }
     axios.post(`${url}${process.env.REACT_APP_API_KEY}`, payload)
     .then(response => {
-      console.log(response)
+      // console.log(response)
 
       // using local storage to persist token info
       const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
@@ -61,7 +61,7 @@ export const auth = (email, password, isSignUp) => {
       dispatch(checkAuthTimeOut(response.data.expiresIn))
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
       dispatch(authFailed(error.response.data.error));
     })
   }

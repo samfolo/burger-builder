@@ -10,6 +10,7 @@ import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from '../../../hoc/ErrorHandler/ErrorHandler';
+import checkValidity from '../../../shared/utility/validation';
 
 class ContactData extends React.Component {
   constructor(props) {
@@ -108,7 +109,6 @@ class ContactData extends React.Component {
   }
 
   getOrder = () => {
-    console.log(this.props.userID, '............');
     return {
       ingredients: this.props.ingredients,
       price: +this.props.totalPrice.toFixed(2),
@@ -139,7 +139,7 @@ class ContactData extends React.Component {
     const orderForm = {...this.state.orderForm};
     const orderFormField = {...orderForm[field]};
     orderFormField.value = e.target.value;
-    orderFormField.valid = this.checkValidity(orderFormField.value, orderFormField.validation);
+    orderFormField.valid = checkValidity(orderFormField.value, orderFormField.validation);
     orderFormField.touched = true;
     orderForm[field] = orderFormField; // above is deep cloning
 
@@ -163,29 +163,6 @@ class ContactData extends React.Component {
     });
 
     return renderedInputs;
-  }
-
-  checkValidity(fieldValue, rules) {
-    let isValid = true ;
-    let trueFieldValue = fieldValue.trim();
-
-    if (rules.required) {
-      isValid = isValid && trueFieldValue !== '';
-    }
-
-    if (rules.minLength) {
-      isValid = isValid && trueFieldValue.length >= rules.minLength
-    }
-
-    if (rules.maxLength) {
-      isValid = isValid && trueFieldValue.length <= rules.maxLength
-    }
-
-    if (rules.format) {
-      isValid = isValid && rules.format.test(trueFieldValue);
-    }
-
-    return isValid
   }
 
   isInvalidForm = () => {
