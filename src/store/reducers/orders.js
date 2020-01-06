@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import updateState from '../utility/updateState';
+import updateState from '../../shared/utility/updateState';
 
 const initialState = {
   loading: false,

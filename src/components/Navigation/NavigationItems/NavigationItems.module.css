@@ -12,4 +12,8 @@
   .NavigationItems {
     flex-direction: row;
   }
+
+  .DesktopOnly {
+    visibility: hidden;
+  }
 }
