@@ -1,7 +1,11 @@
 .CheckoutSummary {
   text-align: center;
   width: 80%;
-  margin: 0 auto;
+  margin: 0;
+}
+
+h1 {
+  width: 100%;
 }
 
 .Burger {
@@ -11,9 +15,6 @@
 }
 
 @media (min-width: 600px) {
-  .CheckoutSummary {
-    width: 500px;
-  }
 
   .Burger {
     width: '100%';

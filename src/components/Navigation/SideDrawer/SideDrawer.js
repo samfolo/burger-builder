@@ -13,7 +13,7 @@ const SideDrawer = props => {
       <div className={attachedClasses}>
         <div className={Classes.Logo}><Logo /></div>
         <nav>
-          <NavigationItems isLoggedIn={props.isLoggedIn} />
+          <NavigationItems onClick={props.onClick} isLoggedIn={props.isLoggedIn} />
         </nav>
       </div>
     </Aux>

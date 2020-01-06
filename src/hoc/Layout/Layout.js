@@ -14,7 +14,9 @@ class Layout extends React.Component {
   }
 
   closeSideDrawer = () => {
-    this.setState({ showSideDrawer: false })
+    this.setState((prevState, props) => {
+      return { showSideDrawer: false }
+    });
   }
 
   openSideDrawer = () => {
