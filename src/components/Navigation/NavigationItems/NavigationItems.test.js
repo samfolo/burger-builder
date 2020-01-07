@@ -20,7 +20,7 @@ describe('< NavigationItems />', () => {
     expect(wrapper.find(NavigationItem)).toHaveLength(3);
   });
 
-  it('should render three <NavigationItem /> elements if authenticated', () => {
+  it("should render <NavigationItem link='/sign-out'></NavigationItem> if authenticated", () => {
     expect(wrapper.contains(<NavigationItem link='/sign-out'>Sign Out</NavigationItem>)).toBe(true);
   });
 });

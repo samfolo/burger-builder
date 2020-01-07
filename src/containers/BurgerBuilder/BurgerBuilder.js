@@ -12,7 +12,7 @@ import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import errorHandler from '../../hoc/ErrorHandler/ErrorHandler';
 
-class BurgerBuilder extends React.Component {
+export class BurgerBuilder extends React.Component {
   constructor(props) {
     super(props);
 
